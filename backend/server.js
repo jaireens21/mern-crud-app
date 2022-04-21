@@ -24,11 +24,28 @@ app.use(cors());
 
 //ROUTES
 
-//home page
-app.get('/', (req,res)=>{
-    res.send('hello from books app');
+//details of a selected book
+app.get('/books/:id', (req,res)=>{
+    const {id}=req.params;
+    Book.findById(id, function(err, book) {
+        if (err) {
+            return console.log(err);
+        } else {
+            //console.log('found the book!');
+            return res.json(book);}
+        });
 })
 
+
+//all books page
+app.get('/books', (req,res)=>{
+    Book.find(function(err, bookList) {
+        if (err) {
+            return console.log(err);
+        } else {
+            return res.json(bookList);}
+        });
+})
 
 
 //add a new book to DB
